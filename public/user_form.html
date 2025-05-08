@@ -1,0 +1,56 @@
+
+<!DOCTYPE html>
+<html>
+<head><title>User Form (Fixed JSON)</title></head>
+<body>
+  <h2>Register</h2>
+  <form id="registerForm">
+    <input id="user_id" placeholder="User ID" required /><br>
+    <input id="user_name" placeholder="Username" required /><br>
+    <input id="user_password" placeholder="Password" required /><br>
+    <button type="submit">Register</button>
+  </form>
+
+  <h2>Login</h2>
+  <form id="loginForm">
+    <input id="login_user_id" placeholder="User ID" required /><br>
+    <input id="login_user_password" placeholder="Password" required /><br>
+    <button type="submit">Login</button>
+  </form>
+
+  <script>
+    document.getElementById('registerForm').onsubmit = async function(e) {
+      e.preventDefault();
+      const res = await fetch("http://localhost:8080/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          user_id: document.getElementById("user_id").value,
+          user_name: document.getElementById("user_name").value,
+          user_password: document.getElementById("user_password").value
+        })
+      });
+      const data = await res.json();
+      alert(JSON.stringify(data));
+    };
+
+    document.getElementById('loginForm').onsubmit = async function(e) {
+      e.preventDefault();
+      const res = await fetch("http://localhost:8080/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          user_id: document.getElementById("login_user_id").value,
+          user_password: document.getElementById("login_user_password").value
+        })
+      });
+      const data = await res.json();
+      alert(JSON.stringify(data));
+    };
+  </script>
+</body>
+</html>

@@ -1,0 +1,48 @@
+
+<!DOCTYPE html>
+<html>
+<head><title>Product Form (Fixed JSON)</title></head>
+<body>
+  <h2>Create Product</h2>
+  <form id="createForm">
+    <input id="product_id" placeholder="Product ID" required /><br>
+    <input id="product_name" placeholder="Product Name" required /><br>
+    <input id="token" placeholder="JWT Token" required /><br>
+    <button type="submit">Create</button>
+  </form>
+
+  <h2>Get Products</h2>
+  <button onclick="fetchProducts()">Get Products</button>
+  <pre id="productList"></pre>
+
+  <script>
+    document.getElementById('createForm').onsubmit = async function(e) {
+      e.preventDefault();
+      const res = await fetch('http://localhost:8080/products', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + document.getElementById('token').value
+        },
+        body: JSON.stringify({
+          product_id: document.getElementById('product_id').value,
+          product_name: document.getElementById('product_name').value
+        })
+      });
+      const data = await res.json();
+      alert(JSON.stringify(data));
+    };
+
+    async function fetchProducts() {
+      const token = prompt("Enter your JWT token:");
+      const res = await fetch('http://localhost:8080/products', {
+        headers: {
+          'Authorization': 'Bearer ' + token
+        }
+      });
+      const data = await res.json();
+      document.getElementById("productList").textContent = JSON.stringify(data, null, 2);
+    }
+  </script>
+</body>
+</html>
