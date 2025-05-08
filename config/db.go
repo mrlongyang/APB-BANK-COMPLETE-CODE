@@ -8,7 +8,7 @@ import (
 )
 
 func InitDB() *sql.DB {
-	dsn := "root:tryappserv@tcp(127.0.0.1:3306)/bank"
+	dsn := "root:your_password@tcp(127.0.0.1:3306)/your_database"
 	db, err := sql.Open("mysql", dsn)
 	if err != nil {
 		log.Fatal("Database connection failed:", err)
